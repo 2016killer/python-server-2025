@@ -108,7 +108,10 @@ async def run_script_api(request):
     '''运行脚本'''
     script = await request.text()
     local_namespace = dict()
-    exec(script, globals(), local_namespace)
+    try:
+        exec(script, globals(), local_namespace)
+    except Exception as e:
+        local_namespace['resinfo'] = traceback.format_exc()
     return web.Response(text=local_namespace.get('resinfo', '运行成功'))
 
 app = web.Application(middlewares=[redirection])
