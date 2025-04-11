@@ -186,4 +186,3 @@ def run_timecost(func, *args, **kwargs):
 daycount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 is_leap_year = lambda year: year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 get_daycount = lambda year, month: 29 if month == 2 and is_leap_year(year) else daycount[month - 1]
-
