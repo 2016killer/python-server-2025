@@ -79,7 +79,7 @@ def load_module(module_name):
     importlib.import_module(module_name)
 
 
-async def upload_module(request):
+async def upload_module_api(request):
     '''上传脚本'''
     # 加载参数
     data = await request.post()
@@ -98,13 +98,13 @@ async def upload_module(request):
 
     return web.Response(text='上传成功')
 
-async def load_module(request):
+async def load_module_api(request):
     '''加载脚本'''
     data = await request.json()
     load_module(data['module'])
     return web.Response(text='加载成功')
 
-async def run_script(request):
+async def run_script_api(request):
     '''运行脚本'''
     script = await request.text()
     local_namespace = dict()
@@ -113,9 +113,9 @@ async def run_script(request):
 
 app = web.Application(middlewares=[redirection])
 app.add_routes([
-    web.post('/file/upload/module', upload_module),
-    web.post('/load/module', load_module),
-    web.post('/run/script', run_script),
+    web.post('/file/upload/module', upload_module_api),
+    web.post('/load/module', load_module_api),
+    web.post('/run/script', run_script_api),
 ])
 
 
