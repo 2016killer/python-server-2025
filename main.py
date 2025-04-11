@@ -104,15 +104,17 @@ async def load_module_api(request):
     load_module(data['module'])
     return web.Response(text='加载成功')
 
+resinfo = ''
 async def run_script_api(request):
     '''运行脚本'''
+    global resinfo
     script = await request.text()
-    local_namespace = dict()
+    resinfo = '运行成功'
     try:
-        exec(script, globals(), local_namespace)
+        exec('RUN_IN_SERVER = True\n' + script, globals())
     except Exception as e:
-        local_namespace['resinfo'] = traceback.format_exc()
-    return web.Response(text=local_namespace.get('resinfo', '运行成功'))
+        resinfo = traceback.format_exc()
+    return web.Response(text=resinfo)
 
 app = web.Application(middlewares=[redirection])
 app.add_routes([
